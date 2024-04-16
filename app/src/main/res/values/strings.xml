@@ -2,4 +2,8 @@
     <string name="app_name">Record KEEPER</string>
     <string name="running">Running</string>
     <string name="cycling">Cycling</string>
+    <string name="running1">Running</string>
+    <string name="_description">Running image</string>
+    <string name="cycling_image">cycling image</string>
+    <string name="cycling1">Cycling</string>
 </resources>

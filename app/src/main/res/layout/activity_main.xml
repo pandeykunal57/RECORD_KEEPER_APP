@@ -16,25 +16,7 @@
         app:layout_constraintTop_toTopOf="parent"
         tools:layout="@layout/fragment_running" />
 
-    <Button
-        android:id="@+id/button_cycling"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="12dp"
-        android:text="Cycling"
-        app:layout_constraintBottom_toTopOf="@+id/bottom_nav"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:ignore="HardcodedText,DuplicateSpeakableTextCheck" />
 
-    <Button
-        android:id="@+id/button_running"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Running"
-        android:layout_margin="12dp"
-        app:layout_constraintBottom_toTopOf="@+id/bottom_nav"
-        app:layout_constraintEnd_toEndOf="parent"
-        tools:ignore="HardcodedText,DuplicateSpeakableTextCheck" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottom_nav"

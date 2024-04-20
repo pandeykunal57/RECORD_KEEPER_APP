@@ -6,4 +6,7 @@
     <string name="_description">Running image</string>
     <string name="cycling_image">cycling image</string>
     <string name="cycling1">Cycling</string>
+    <string name="reset_running_records">Reset Running Records</string>
+    <string name="reset_cycling_records">Reset Cycling Records</string>
+    <string name="reset_all_records">Reset All Records</string>
 </resources>

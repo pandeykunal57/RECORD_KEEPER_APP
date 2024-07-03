@@ -105,7 +105,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener,
                     
                 }
                 refreshCurrentFragment()
-                SnackbarConfirmation ()
+                snackbarConfirmation ()
 
 
             }
@@ -113,7 +113,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener,
             .show()
     }
 
-    private fun SnackbarConfirmation() {
+    private fun snackbarConfirmation() {
         val snackbar = Snackbar.make(
             binding.frameContent,
             "RECORDS CLEARED SUCESSFULLY !",

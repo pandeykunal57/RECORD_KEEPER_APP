@@ -30,32 +30,23 @@ class MainActivity : AppCompatActivity(), View.OnClickListener,
         binding.bottomNav.setOnItemSelectedListener(this)
 
 
-        /* ALTERNATIVE
-        binding.bottomNav.setOnNavigationItemSelectedListener(object:BottomNavigationView.OnNavigationItemSelectedListener{
-            override fun onNavigationItemSelected(item: MenuItem): Boolean {
-                TODO("Not yet implemented")
-            }
-
-        }) */
-
-
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {   // method that runs automatically whne app is launched
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
         menuInflater.inflate(R.menu.tool_bar, menu)
-        // like layout inflator , takes 2 parameters , menu created by us and menu variable automatically given to us by the inflator
+
         return true
     }
 
 
-    override fun onOptionsItemSelected(item: MenuItem): Boolean { // to respond to menu items clicked on app
-       val menuclickedhandle = when (item.itemId) {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val menuclickedhandle = when (item.itemId) {
             R.id.reset_running -> {
 
                 showConfirmationDialog(RUNNING_DISPLAY_VALUE)
 
 
-                        true
+                true
 
             }
 
@@ -77,35 +68,49 @@ class MainActivity : AppCompatActivity(), View.OnClickListener,
             }
         }
 
-  
+
 
         return super.onOptionsItemSelected(item)
     }
 
-    private fun showConfirmationDialog(selection:String?) {
+    private fun showConfirmationDialog(selection: String?) {
         AlertDialog.Builder(this)
             .setTitle("Reset $selection Records")
             .setMessage("Are you sure to clear Records?")
             .setPositiveButton("YES") { _, _ ->
-                when(selection){
+                when (selection) {
 
 
-                    ALL_DISPLAY_VALUE ->{
-                        getSharedPreferences(RunningFragment.FILENAME, MODE_PRIVATE).edit { clear() }
-                        getSharedPreferences(CyclingFragment.FILENAME, MODE_PRIVATE).edit { clear() }}
-
-                    RUNNING_DISPLAY_VALUE->{
-                        getSharedPreferences(RunningFragment.FILENAME, MODE_PRIVATE).edit { clear() }
+                    ALL_DISPLAY_VALUE -> {
+                        getSharedPreferences(
+                            RunningFragment.FILENAME,
+                            MODE_PRIVATE
+                        ).edit { clear() }
+                        getSharedPreferences(
+                            CyclingFragment.FILENAME,
+                            MODE_PRIVATE
+                        ).edit { clear() }
                     }
-                    CYCLING_DISPLAY_VALUE ->{
-                        getSharedPreferences(CyclingFragment.FILENAME, MODE_PRIVATE).edit { clear() }
+
+                    RUNNING_DISPLAY_VALUE -> {
+                        getSharedPreferences(
+                            RunningFragment.FILENAME,
+                            MODE_PRIVATE
+                        ).edit { clear() }
                     }
 
-                    else ->{ }
-                    
+                    CYCLING_DISPLAY_VALUE -> {
+                        getSharedPreferences(
+                            CyclingFragment.FILENAME,
+                            MODE_PRIVATE
+                        ).edit { clear() }
+                    }
+
+                    else -> {}
+
                 }
                 refreshCurrentFragment()
-                snackbarConfirmation ()
+                snackbarConfirmation()
 
 
             }
@@ -147,21 +152,11 @@ class MainActivity : AppCompatActivity(), View.OnClickListener,
     private fun onRunningclicked(): Boolean {
         supportFragmentManager.commit {
             replace(R.id.frame_content, RunningFragment())
-            // true is returned that yes highlight the button in navigation pane when it si selected
         }
         return true
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean =
-        /* if (item.itemId == R.id.nav_cycling) {
-             onCyclingclicked()
-             return true
-         } else if (item.itemId == R.id.nav_running) {
-             onRunningclicked()
-             return true // true is returned that yes highlight the button in navigation pane when it si selected
-         } else {
-             return false
-         }*/
 
 
         when (item.itemId) {
@@ -174,10 +169,11 @@ class MainActivity : AppCompatActivity(), View.OnClickListener,
     override fun onClick(p0: View?) {
 
     }
-    companion object{
-        const val RUNNING_DISPLAY_VALUE="running"
-        const val CYCLING_DISPLAY_VALUE="cycling"
-        const val ALL_DISPLAY_VALUE="all"
+
+    companion object {
+        const val RUNNING_DISPLAY_VALUE = "running"
+        const val CYCLING_DISPLAY_VALUE = "cycling"
+        const val ALL_DISPLAY_VALUE = "all"
 
     }
 

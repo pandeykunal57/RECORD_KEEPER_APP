@@ -1,12 +1,9 @@
 package com.example.recordkeeper
 
-import android.content.Context
-import android.content.DialogInterface
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.edit
@@ -15,6 +12,7 @@ import com.example.recordkeeper.cycling.CyclingFragment
 import com.example.recordkeeper.databinding.ActivityMainBinding
 import com.example.recordkeeper.running.RunningFragment
 import com.google.android.material.navigation.NavigationBarView.OnItemSelectedListener
+import com.google.android.material.snackbar.Snackbar
 
 
 class MainActivity : AppCompatActivity(), View.OnClickListener,
@@ -54,7 +52,7 @@ class MainActivity : AppCompatActivity(), View.OnClickListener,
        val menuclickedhandle = when (item.itemId) {
             R.id.reset_running -> {
 
-                showConfirmationDialog("running")
+                showConfirmationDialog(RUNNING_DISPLAY_VALUE)
 
 
                         true
@@ -62,13 +60,13 @@ class MainActivity : AppCompatActivity(), View.OnClickListener,
             }
 
             R.id.reset_cycling -> {
-                showConfirmationDialog("cycling")
+                showConfirmationDialog(CYCLING_DISPLAY_VALUE)
 
                 true
             }
 
             R.id.reset_all -> {
-                showConfirmationDialog("all")
+                showConfirmationDialog(ALL_DISPLAY_VALUE)
 
 
                 true
@@ -92,20 +90,38 @@ class MainActivity : AppCompatActivity(), View.OnClickListener,
                 when(selection){
 
 
-                    "all" ->{
-                        getSharedPreferences("running", MODE_PRIVATE).edit { clear() }
-                        getSharedPreferences("cycling", MODE_PRIVATE).edit { clear() }}
-                    else ->{
-                        getSharedPreferences(selection, MODE_PRIVATE).edit { clear() }
+                    ALL_DISPLAY_VALUE ->{
+                        getSharedPreferences(RunningFragment.FILENAME, MODE_PRIVATE).edit { clear() }
+                        getSharedPreferences(CyclingFragment.FILENAME, MODE_PRIVATE).edit { clear() }}
 
+                    RUNNING_DISPLAY_VALUE->{
+                        getSharedPreferences(RunningFragment.FILENAME, MODE_PRIVATE).edit { clear() }
                     }
+                    CYCLING_DISPLAY_VALUE ->{
+                        getSharedPreferences(CyclingFragment.FILENAME, MODE_PRIVATE).edit { clear() }
+                    }
+
+                    else ->{ }
                     
                 }
                 refreshCurrentFragment()
+                SnackbarConfirmation ()
+
 
             }
             .setNegativeButton("NO", null)
             .show()
+    }
+
+    private fun SnackbarConfirmation() {
+        val snackbar = Snackbar.make(
+            binding.frameContent,
+            "RECORDS CLEARED SUCESSFULLY !",
+            Snackbar.LENGTH_SHORT
+        )
+        snackbar.anchorView = binding.bottomNav
+        snackbar.setAction("UNDO") {}
+        snackbar.show()
     }
 
     private fun refreshCurrentFragment() {
@@ -156,6 +172,12 @@ class MainActivity : AppCompatActivity(), View.OnClickListener,
         }
 
     override fun onClick(p0: View?) {
+
+    }
+    companion object{
+        const val RUNNING_DISPLAY_VALUE="running"
+        const val CYCLING_DISPLAY_VALUE="cycling"
+        const val ALL_DISPLAY_VALUE="all"
 
     }
 

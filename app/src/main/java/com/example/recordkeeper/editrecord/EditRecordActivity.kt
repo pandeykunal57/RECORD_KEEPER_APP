@@ -2,13 +2,16 @@ package com.example.recordkeeper.editrecord
 
 import android.content.Context
 import android.content.SharedPreferences
-import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.MenuItem
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.edit
+import com.example.recordkeeper.cycling.CyclingFragment
 import com.example.recordkeeper.databinding.ActivityEditRecordBinding
+import com.example.recordkeeper.running.RunningFragment
 import java.io.Serializable
 
+const val INTENT_EXTRA_SCREEN_DATA="screen_data"
 class EditRecordActivity : AppCompatActivity() {
     private lateinit var binding: ActivityEditRecordBinding
     private val recordPreferences: SharedPreferences by lazy {
@@ -18,7 +21,7 @@ class EditRecordActivity : AppCompatActivity() {
         )
     }
     private val screenData: ScreenData by lazy {
-        intent.getSerializableExtra("screen_data") as ScreenData
+        intent.getSerializableExtra(INTENT_EXTRA_SCREEN_DATA) as ScreenData
 
 
     }
@@ -34,6 +37,17 @@ class EditRecordActivity : AppCompatActivity() {
 
         displayRecord()
 
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when(item.itemId)
+        {
+           android.R.id.home ->{
+               onBackPressedDispatcher.onBackPressed()
+               return true
+           }
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     private fun setupUI() {
@@ -52,36 +66,36 @@ class EditRecordActivity : AppCompatActivity() {
 
     private fun clearRecord() {
         recordPreferences.edit {
-            remove("${screenData.record} record")
-            remove("${screenData.record} date")
+            remove("${screenData.record} $SHARED_PREFERENCE_RECORD_KEY")
+            remove("${screenData.record} $SHARED_PREFERENCE_DATE_KEY")
         }
     }
 
     private fun displayRecord() {
-        val cyclingPreferences = getSharedPreferences("cycling", Context.MODE_PRIVATE)
+        val cyclingPreferences = getSharedPreferences(CyclingFragment.FILENAME, Context.MODE_PRIVATE)
         binding.editTextRecord.setText(
             cyclingPreferences.getString(
-                "${screenData.record} record",
+                "${screenData.record} $SHARED_PREFERENCE_RECORD_KEY",
                 null
             )
         )
         binding.editTextDate.setText(
             cyclingPreferences.getString(
-                "${screenData.record} date",
+                "${screenData.record} $SHARED_PREFERENCE_DATE_KEY",
                 null
             )
         )
 
-        val runningPreferences = getSharedPreferences("running", Context.MODE_PRIVATE)
+        val runningPreferences = getSharedPreferences(RunningFragment.FILENAME, Context.MODE_PRIVATE)
         binding.editTextRecord.setText(
             runningPreferences.getString(
-                "${screenData.record} record",
+                "${screenData.record} $SHARED_PREFERENCE_RECORD_KEY",
                 null
             )
         )
         binding.editTextDate.setText(
             runningPreferences.getString(
-                "${screenData.record} date",
+                "${screenData.record} $SHARED_PREFERENCE_DATE_KEY",
                 null
             )
         )
@@ -93,8 +107,8 @@ class EditRecordActivity : AppCompatActivity() {
         val date = binding.editTextDate.text.toString()
 
 
-        val runningPreferences = getSharedPreferences("running", Context.MODE_PRIVATE)
-        val cyclingPreferences = getSharedPreferences("cycling", Context.MODE_PRIVATE)
+        val runningPreferences = getSharedPreferences(RunningFragment.FILENAME, Context.MODE_PRIVATE)
+        val cyclingPreferences = getSharedPreferences(CyclingFragment.FILENAME, Context.MODE_PRIVATE)
 
 
 //        val editor=runningPreferences.edit()          OLD WAY
@@ -103,12 +117,12 @@ class EditRecordActivity : AppCompatActivity() {
 //        editor.apply()
 
         runningPreferences.edit {
-            putString("${this@EditRecordActivity.screenData.record} record", record)
-            putString("${this@EditRecordActivity.screenData.record} date", date)
+            putString("${this@EditRecordActivity.screenData.record} $SHARED_PREFERENCE_RECORD_KEY", record)
+            putString("${this@EditRecordActivity.screenData.record} $SHARED_PREFERENCE_DATE_KEY", date)
         }
         cyclingPreferences.edit {
-            putString("${this@EditRecordActivity.screenData.record} record", record)
-            putString("${this@EditRecordActivity.screenData.record} date", date)
+            putString("${this@EditRecordActivity.screenData.record} $SHARED_PREFERENCE_RECORD_KEY", record)
+            putString("${this@EditRecordActivity.screenData.record} $SHARED_PREFERENCE_DATE_KEY", date)
         }
 
     }
@@ -118,5 +132,11 @@ class EditRecordActivity : AppCompatActivity() {
         val sharedPreferencesName: String,
         val recordFieldHint: String
     ) : Serializable
+
+    companion object{
+        const val SHARED_PREFERENCE_RECORD_KEY="record"
+        const val SHARED_PREFERENCE_DATE_KEY="date"
+
+    }
 
 }

@@ -1,13 +1,19 @@
 package com.example.recordkeeper
 
+import android.content.Context
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.edit
 import androidx.fragment.app.commit
+import com.example.recordkeeper.cycling.CyclingFragment
 import com.example.recordkeeper.databinding.ActivityMainBinding
+import com.example.recordkeeper.running.RunningFragment
 import com.google.android.material.navigation.NavigationBarView.OnItemSelectedListener
 
 
@@ -45,19 +51,26 @@ class MainActivity : AppCompatActivity(), View.OnClickListener,
 
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean { // to respond to menu items clicked on app
-       return when (item.itemId) {
+       val menuclickedhandle = when (item.itemId) {
             R.id.reset_running -> {
-                Toast.makeText(this, "CLICKED THE RESET RUNNING", Toast.LENGTH_SHORT).show()
-                true
+
+                showConfirmationDialog("running")
+
+
+                        true
+
             }
 
             R.id.reset_cycling -> {
-                Toast.makeText(this, "CLICKED THE RESET CYCLING", Toast.LENGTH_SHORT).show()
+                showConfirmationDialog("cycling")
+
                 true
             }
 
             R.id.reset_all -> {
-                Toast.makeText(this, "CLICKED THE RESET ALL", Toast.LENGTH_SHORT).show()
+                showConfirmationDialog("all")
+
+
                 true
             }
 
@@ -66,7 +79,45 @@ class MainActivity : AppCompatActivity(), View.OnClickListener,
             }
         }
 
+  
+
         return super.onOptionsItemSelected(item)
+    }
+
+    private fun showConfirmationDialog(selection:String?) {
+        AlertDialog.Builder(this)
+            .setTitle("Reset $selection Records")
+            .setMessage("Are you sure to clear Records?")
+            .setPositiveButton("YES") { _, _ ->
+                when(selection){
+
+
+                    "all" ->{
+                        getSharedPreferences("running", MODE_PRIVATE).edit { clear() }
+                        getSharedPreferences("cycling", MODE_PRIVATE).edit { clear() }}
+                    else ->{
+                        getSharedPreferences(selection, MODE_PRIVATE).edit { clear() }
+
+                    }
+                    
+                }
+                refreshCurrentFragment()
+
+            }
+            .setNegativeButton("NO", null)
+            .show()
+    }
+
+    private fun refreshCurrentFragment() {
+        when (binding.bottomNav.selectedItemId) {
+            R.id.nav_running -> {
+                onRunningclicked()
+            }
+
+            R.id.nav_cycling -> {
+                onCyclingclicked()
+            }
+        }
     }
 
 

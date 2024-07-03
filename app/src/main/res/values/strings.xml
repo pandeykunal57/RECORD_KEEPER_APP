@@ -9,4 +9,8 @@
     <string name="reset_running_records">Reset Running Records</string>
     <string name="reset_cycling_records">Reset Cycling Records</string>
     <string name="reset_all_records">Reset All Records</string>
+    <string name="record">Record</string>
+    <string name="date">DATE</string>
+    <string name="clear_record">CLEAR RECORD</string>
+    <string name="save">SAVE</string>
 </resources>

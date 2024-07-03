@@ -38,7 +38,6 @@ class RunningFragment : Fragment() {
         displayRecords()
     }
 
-    // setting up new functions for all the click listners so that code is well organized and easy to debug
 
     private fun setupclicklistners() {
         binding.container5KM.setOnClickListener { launchRunningRecordScreen<Any>("5km") }
@@ -52,37 +51,60 @@ class RunningFragment : Fragment() {
     private fun displayRecords() {
         val runningPreferences =
             requireContext().getSharedPreferences(FILENAME, Context.MODE_PRIVATE)
-        binding.textView5kmValue.text = runningPreferences.getString("5km ${EditRecordActivity.SHARED_PREFERENCE_RECORD_KEY}", null)
-        binding.textView5kmValue2.text = runningPreferences.getString("5km ${EditRecordActivity.SHARED_PREFERENCE_DATE_KEY}", null)
-        binding.textView10kmValue.text = runningPreferences.getString("10KM ${EditRecordActivity.SHARED_PREFERENCE_RECORD_KEY}", null)
-        binding.textView10kmValue2.text = runningPreferences.getString("10KM ${EditRecordActivity.SHARED_PREFERENCE_DATE_KEY}", null)
-        binding.textViewHalfmarathonValue.text = runningPreferences.getString("Half Marathon ${EditRecordActivity.SHARED_PREFERENCE_RECORD_KEY}", null)
-        binding.textViewHalfmarathonValue2.text = runningPreferences.getString("Half Marathon ${EditRecordActivity.SHARED_PREFERENCE_DATE_KEY}", null)
-        binding.textViewFullmarathonValue.text = runningPreferences.getString("Full Marathon ${EditRecordActivity.SHARED_PREFERENCE_RECORD_KEY}", null)
-        binding.textViewFullmarathonValue2.text = runningPreferences.getString("Full Marathon ${EditRecordActivity.SHARED_PREFERENCE_DATE_KEY}", null)
+        binding.textView5kmValue.text = runningPreferences.getString(
+            "5km ${EditRecordActivity.SHARED_PREFERENCE_RECORD_KEY}",
+            null
+        )
+        binding.textView5kmValue2.text = runningPreferences.getString(
+            "5km ${EditRecordActivity.SHARED_PREFERENCE_DATE_KEY}",
+            null
+        )
+        binding.textView10kmValue.text = runningPreferences.getString(
+            "10KM ${EditRecordActivity.SHARED_PREFERENCE_RECORD_KEY}",
+            null
+        )
+        binding.textView10kmValue2.text = runningPreferences.getString(
+            "10KM ${EditRecordActivity.SHARED_PREFERENCE_DATE_KEY}",
+            null
+        )
+        binding.textViewHalfmarathonValue.text = runningPreferences.getString(
+            "Half Marathon ${EditRecordActivity.SHARED_PREFERENCE_RECORD_KEY}",
+            null
+        )
+        binding.textViewHalfmarathonValue2.text = runningPreferences.getString(
+            "Half Marathon ${EditRecordActivity.SHARED_PREFERENCE_DATE_KEY}",
+            null
+        )
+        binding.textViewFullmarathonValue.text = runningPreferences.getString(
+            "Full Marathon ${EditRecordActivity.SHARED_PREFERENCE_RECORD_KEY}",
+            null
+        )
+        binding.textViewFullmarathonValue2.text = runningPreferences.getString(
+            "Full Marathon ${EditRecordActivity.SHARED_PREFERENCE_DATE_KEY}",
+            null
+        )
 
 
     }
 
-    //method for launching the activity for all the on click listners
 
     private fun <T> launchRunningRecordScreen(distance: String) {
 
-        /* val intent=Intent(this,EditRunningRecordActivity::class.java)
-        this, will not work here because a FRAGMENT is not a context an ACTIVITY is
-         */
 
         val intent = Intent(context, EditRecordActivity::class.java)
-        // we have context variable available from the parent activity class, can be nullable
 
-        // IN ACTIVITIES WE CAN USE THIS BUT IN FRAGMENTS WE CAN NOT USE THIS
 
-        intent.putExtra(INTENT_EXTRA_SCREEN_DATA, EditRecordActivity.ScreenData(distance, RunningFragment.FILENAME, "Time"))
+        intent.putExtra(
+            INTENT_EXTRA_SCREEN_DATA,
+            EditRecordActivity.ScreenData(distance, RunningFragment.FILENAME, "Time")
+        )
         startActivity(intent)
 
 
-    } companion object {
-        const val  FILENAME="running"
+    }
+
+    companion object {
+        const val FILENAME = "running"
 
     }
 
